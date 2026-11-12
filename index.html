@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>htmx + dummyjson users</title>
+  <!-- разрешаем htmx запросы на чужой домен (по умолчанию только свой) -->
+  <meta name="htmx-config" content='{"selfRequestsOnly": false}'>
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <script src="https://unpkg.com/mustache@4.2.0/mustache.min.js"></script>
+  <script src="https://unpkg.com/htmx-ext-client-side-templates@2.0.1/client-side-templates.js"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 2rem auto; padding: 0 1rem; }
+    article { display: flex; gap: 1rem; border: 1px solid #ddd; border-radius: 8px; padding: .6rem 1rem; margin: .5rem 0; }
+    article h3 { margin: .2rem 0; }
+    button { cursor: pointer; padding: .4rem .8rem; }
+  </style>
+</head>
+<body hx-ext="client-side-templates">
+  <h1>Пользователи dummyjson</h1>
+
+  <button hx-get="https://dummyjson.com/users?limit=5&select=firstName,lastName,email,image,company"
+          hx-target="#users"
+          mustache-template="users">
+    Загрузить пользователей
+  </button>
+
+  <div id="users"></div>
+
+  <!-- Шаблон Mustache: JSON-ответ -> HTML. Mustache экранирует значения сам. -->
+  <template id="users">
+    {{#users}}
+    <article>
+      <img src="{{image}}" width="64" height="64" alt="">
+      <div>
+        <h3>{{firstName}} {{lastName}}</h3>
+        <div>{{email}}</div>
+        <small>{{company.title}}, {{company.name}}</small>
+      </div>
+    </article>
+    {{/users}}
+  </template>
+</body>
+</html>
