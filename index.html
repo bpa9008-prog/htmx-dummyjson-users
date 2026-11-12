@@ -20,14 +20,14 @@
 
   <button hx-get="https://dummyjson.com/users?limit=5&select=firstName,lastName,email,image,company"
           hx-target="#users"
-          mustache-template="users">
+          mustache-template="users-tpl">
     Загрузить пользователей
   </button>
 
   <div id="users"></div>
 
   <!-- Шаблон Mustache: JSON-ответ -> HTML. Mustache экранирует значения сам. -->
-  <template id="users">
+  <template id="users-tpl">
     {{#users}}
     <article>
       <img src="{{image}}" width="64" height="64" alt="">
